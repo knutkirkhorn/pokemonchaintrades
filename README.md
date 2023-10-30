@@ -2,7 +2,7 @@
 
 > Plan your perfect chain of Pokémon trades
 
-Visit https://pokemonchaintrades.com/ for the production version.
+Visit https://pokemonchaintrades.com/ for a live version.
 
 ## Local development
 

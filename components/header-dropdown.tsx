@@ -38,7 +38,7 @@ export default function HeaderDropdown() {
 					</DropdownMenuItem>
 					<DropdownMenuItem asChild className="cursor-pointer">
 						<a
-							href="https://github.com/knutkirkhorn/next-template"
+							href="https://github.com/knutkirkhorn/pokemonchaintrades"
 							rel="noopener noreferrer"
 							target="_blank"
 						>

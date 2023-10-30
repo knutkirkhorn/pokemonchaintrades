@@ -8,7 +8,7 @@ const inter = Inter({subsets: ['latin']});
 
 export const metadata: Metadata = {
 	title: 'PokemonChainTrades',
-	description: 'TODO',
+	description: 'Plan your perfect chain of Pokémon trades',
 };
 
 export default function RootLayout({

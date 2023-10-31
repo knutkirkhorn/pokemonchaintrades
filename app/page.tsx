@@ -9,7 +9,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import {ArrowDown, ArrowRight, Plus, Trash} from 'lucide-react';
+import {
+	ArrowDown,
+	ArrowRight,
+	Plus,
+	Trash,
+} from 'lucide-react';
 import React, {useEffect, useState} from 'react';
 import pokemon from 'pokemon';
 import Spinner from '@/components/spinner';

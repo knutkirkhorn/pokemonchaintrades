@@ -28,33 +28,77 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
 
 const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map(pokemonName => ({
 	value: pokemonName,
 	label: pokemonName,
 }));
 
-function PokemonCard({first, selectedPokemon, onSelectedPokemon}: {first?: boolean, selectedPokemon: string, onSelectedPokemon: (newSelectedPokemon: string) => void}) {
+type Pokemon = {
+	name: string;
+	language: '' | 'english' | 'spanish' | 'french' | 'german' | 'italian' | 'japanese' | 'korean' | 'chinese_simplified' | 'chinese_traditional';
+};
+
+function PokemonCard({first, selectedPokemon, onSelectedPokemon}: {first?: boolean, selectedPokemon: Pokemon, onSelectedPokemon: (newSelectedPokemon: Pokemon) => void}) {
 	return (
 		<Card className="space-y-2">
 			<CardHeader className="flex flex-row items-center justify-between pb-2">
 				<CardTitle className="text-sm font-semibold">{first ? 'Your pokemon' : 'Others pokemon'}</CardTitle>
 			</CardHeader>
-			<CardContent>
+			<CardContent className="space-y-2">
 				<PokemonCombobox
 					pokemonOptions={pokemonComboboxOptions}
-					initialSelectedPokemon={selectedPokemon}
-					onSelectedPokemon={newSelectedPokemon => onSelectedPokemon(newSelectedPokemon)}
+					initialSelectedPokemon={selectedPokemon.name}
+					onSelectedPokemon={newSelectedPokemon => onSelectedPokemon({
+						...selectedPokemon,
+						name: newSelectedPokemon,
+					})}
 				/>
+				<Select
+					defaultValue={selectedPokemon.language}
+					onValueChange={selectedLanguage => onSelectedPokemon({
+						...selectedPokemon,
+						language: selectedLanguage as Pokemon['language'],
+					})}
+				>
+					<SelectTrigger>
+						<SelectValue placeholder="Language" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="english">ENG</SelectItem>
+						<SelectItem value="spanish">SP-EU</SelectItem>
+						<SelectItem value="french">FRE</SelectItem>
+						<SelectItem value="german">GER</SelectItem>
+						<SelectItem value="italian">ITA</SelectItem>
+						<SelectItem value="japanese">JPN</SelectItem>
+						<SelectItem value="korean">KOR</SelectItem>
+						<SelectItem value="chinese_simplified">CHS</SelectItem>
+						<SelectItem value="chinese_traditional">CHT</SelectItem>
+					</SelectContent>
+				</Select>
 			</CardContent>
 		</Card>
 	);
 }
 
-type PokemonTrade = {
+// TODO: remove this later :)
+type LegacyPokemonTrade = {
 	id: string,
 	firstPokemon: string;
 	secondPokemon: string;
+};
+
+type PokemonTrade = {
+	id: string,
+	firstPokemon: Pokemon;
+	secondPokemon: Pokemon;
 };
 
 function TradeStep({
@@ -66,12 +110,12 @@ function TradeStep({
 	onSelectedSecondPokemon,
 }:
 {
-	firstPokemon: string,
-	secondPokemon: string,
+	firstPokemon: Pokemon,
+	secondPokemon: Pokemon,
 	onDelete?: () => void,
 	step: number,
-	onSelectedFirstPokemon: (newSelectedPokemon: string) => void,
-	onSelectedSecondPokemon: (newSelectedPokemon: string) => void,
+	onSelectedFirstPokemon: (newSelectedPokemon: Pokemon) => void,
+	onSelectedSecondPokemon: (newSelectedPokemon: Pokemon) => void,
 }) {
 	const [showDeleteTradeStepModal, setShowDeleteTradeStepModal] = useState(false);
 
@@ -132,14 +176,25 @@ export default function Home() {
 	useEffect(() => {
 		const savedPokemonTrades = localStorage.getItem('pokemonTrades');
 		if (savedPokemonTrades) {
-			setPokemonTrades(JSON.parse(savedPokemonTrades));
+			const parsedPokemonTrades = JSON.parse(savedPokemonTrades).map((pokemonTrade: PokemonTrade | LegacyPokemonTrade) => {
+				// TODO: just for backwards compatibility, remove this later :)
+				if (typeof pokemonTrade.firstPokemon === 'string' || typeof pokemonTrade.secondPokemon === 'string') {
+					return {
+						...pokemonTrade,
+						firstPokemon: {name: pokemonTrade.firstPokemon, language: ''},
+						secondPokemon: {name: pokemonTrade.secondPokemon, language: ''},
+					};
+				}
+				return pokemonTrade;
+			});
+			setPokemonTrades(parsedPokemonTrades);
 		}
 		setIsLoading(false);
 	}, []);
 
 	const onAddStep = () => {
-		const lastPokemon = pokemonTrades.at(-1)?.secondPokemon ?? '';
-		const newPokemonTrades = [...pokemonTrades, {id: crypto.randomUUID(), firstPokemon: lastPokemon, secondPokemon: ''}];
+		const lastPokemon = pokemonTrades.at(-1)?.secondPokemon ?? {name: '', language: ''};
+		const newPokemonTrades = [...pokemonTrades, {id: crypto.randomUUID(), firstPokemon: lastPokemon, secondPokemon: {name: '', language: '' as Pokemon['language']}}];
 		setPokemonTrades(newPokemonTrades);
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};
@@ -150,7 +205,7 @@ export default function Home() {
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};
 
-	const onSelectedFirstPokemon = (id: string, selectedPokemon: string) => {
+	const onSelectedFirstPokemon = (id: string, selectedPokemon: Pokemon) => {
 		const newPokemonTrades = pokemonTrades.map(pokemonTrade => {
 			if (pokemonTrade.id === id) {
 				return {...pokemonTrade, firstPokemon: selectedPokemon};
@@ -161,7 +216,7 @@ export default function Home() {
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};
 
-	const onSelectedSecondPokemon = (id: string, selectedPokemon: string) => {
+	const onSelectedSecondPokemon = (id: string, selectedPokemon: Pokemon) => {
 		const newPokemonTrades = pokemonTrades.map(pokemonTrade => {
 			if (pokemonTrade.id === id) {
 				return {...pokemonTrade, secondPokemon: selectedPokemon};

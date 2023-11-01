@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Check, ChevronsUpDown} from 'lucide-react';
 import {cn} from '@/lib/utils';
 import {Button} from '@/components/ui/button';
@@ -33,6 +33,10 @@ export function PokemonCombobox({
 }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedPokemon, setSelectedPokemon] = useState(initialSelectedPokemon);
+
+	useEffect(() => {
+		setSelectedPokemon(initialSelectedPokemon);
+	}, [initialSelectedPokemon]);
 
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>

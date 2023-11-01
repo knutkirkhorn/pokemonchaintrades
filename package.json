@@ -19,8 +19,8 @@
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.0.0",
 		"cmdk": "^0.2.0",
-		"lucide-react": "^0.290.0",
-		"next": "^14.0.0",
+		"lucide-react": "^0.291.0",
+		"next": "^14.0.1",
 		"next-themes": "^0.2.1",
 		"pokemon": "^2.3.6",
 		"react": "^18",
@@ -29,8 +29,8 @@
 		"tailwindcss-animate": "^1.0.7"
 	},
 	"devDependencies": {
-		"@types/node": "^20.8.9",
-		"@types/react": "^18.2.33",
+		"@types/node": "^20.8.10",
+		"@types/react": "^18.2.34",
 		"@types/react-dom": "^18.2.14",
 		"@typescript-eslint/eslint-plugin": "^6.9.1",
 		"autoprefixer": "^10",

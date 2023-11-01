@@ -82,10 +82,13 @@ function PokemonCard({first, selectedPokemon, onSelectedPokemon}: {first?: boole
 					<Select
 						defaultValue={selectedPokemonLanguage}
 						value={selectedPokemonLanguage}
-						onValueChange={selectedLanguage => onSelectedPokemon({
-							...selectedPokemon,
-							language: selectedLanguage as Pokemon['language'],
-						})}
+						onValueChange={selectedLanguage => {
+							onSelectedPokemon({
+								...selectedPokemon,
+								language: selectedLanguage as Pokemon['language'],
+							});
+							setSelectedPokemonLanguage(selectedLanguage as Pokemon['language']);
+						}}
 					>
 						<SelectTrigger>
 							<SelectValue placeholder="Language" />

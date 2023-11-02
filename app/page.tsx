@@ -46,7 +46,14 @@ export default function Home() {
 
 	const onAddStep = () => {
 		const lastPokemon = pokemonTrades.at(-1)?.secondPokemon ?? {name: '', language: ''};
-		const newPokemonTrades = [...pokemonTrades, {id: crypto.randomUUID(), firstPokemon: lastPokemon, secondPokemon: {name: '', language: '' as Pokemon['language']}}];
+		const newPokemonTrades = [...pokemonTrades, {
+			id: crypto.randomUUID(),
+			firstPokemon: lastPokemon,
+			secondPokemon: {
+				name: '',
+				language: '' as Pokemon['language'],
+			},
+		}];
 		setPokemonTrades(newPokemonTrades);
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};

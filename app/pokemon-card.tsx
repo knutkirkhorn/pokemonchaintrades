@@ -42,11 +42,11 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 		<>
 			<Card className="space-y-2">
 				<CardHeader className="flex flex-row items-center justify-between pb-2">
-					<CardTitle className="text-sm font-semibold">{first ? 'Your pokemon' : 'Others pokemon'}</CardTitle>
+					<CardTitle className="text-sm font-semibold">{first ? 'Your pokémon' : 'Others pokémon'}</CardTitle>
 					<Button
 						size="sm"
 						variant="secondary"
-						title="Clear pokemon"
+						title="Clear pokémon"
 						className="text-xs"
 						onClick={() => setShowClearPokemonModal(true)}
 					>
@@ -96,7 +96,7 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 			<AlertDialog open={showClearPokemonModal} onOpenChange={setShowClearPokemonModal}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Clear pokemon?</AlertDialogTitle>
+						<AlertDialogTitle>Clear pokémon?</AlertDialogTitle>
 						<AlertDialogDescription>
 							You cannot undo this action.
 						</AlertDialogDescription>

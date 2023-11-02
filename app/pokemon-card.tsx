@@ -26,6 +26,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {Input} from '@/components/ui/input';
 import {Pokemon} from './types';
 
 const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map(pokemonName => ({
@@ -33,10 +34,45 @@ const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map(pokemonName =
 	label: pokemonName,
 }));
 
+// TODO: add tests for this function
+// Example inputs:
+// input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] -> `(1 - 10)`
+// input: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20] -> `(11 - 20)`
+function getLevelRange(level: number) {
+	if (Number.isNaN(level)) return '';
+
+	const startRange = Math.max(1, Math.floor((level - 1) / 10) * 10 + 1);
+	const endRange = Math.min(100, Math.ceil((level) / 10) * 10);
+	return `(${startRange} - ${endRange})`;
+}
+
 export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}: {first?: boolean, selectedPokemon: Pokemon, onSelectedPokemon: (newSelectedPokemon: Pokemon) => void}) {
 	const [selectedPokemonName, setSelectedPokemonName] = useState(selectedPokemon.name);
 	const [selectedPokemonLanguage, setSelectedPokemonLanguage] = useState(selectedPokemon.language);
+	const [selectedPokemonLevel, setSelectedPokemonLevel] = useState(`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`);
 	const [showClearPokemonModal, setShowClearPokemonModal] = useState(false);
+
+	const onLevelInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const parsedLevel = Number.parseInt(event.target.value, 10);
+
+		// If the input contains a non-number character, reset the level
+		if (Number.isNaN(parsedLevel)) {
+			setSelectedPokemonLevel('');
+			onSelectedPokemon({
+				...selectedPokemon,
+				level: undefined,
+			});
+			return;
+		}
+
+		// Set the level in the range 1 - 100
+		const newLevel = Math.max(1, Math.min(100, parsedLevel));
+		setSelectedPokemonLevel(`${newLevel}`);
+		onSelectedPokemon({
+			...selectedPokemon,
+			level: newLevel,
+		});
+	};
 
 	return (
 		<>
@@ -91,6 +127,17 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 							<SelectItem value="chinese_traditional">CHT</SelectItem>
 						</SelectContent>
 					</Select>
+					<div className="flex flex-row items-center space-x-2">
+						<Input
+							className="w-28"
+							min={1}
+							max={100}
+							placeholder="Level"
+							value={selectedPokemonLevel}
+							onChange={onLevelInputChange}
+						/>
+						<span className=" text-sm">{getLevelRange(Number.parseInt(selectedPokemonLevel, 10))}</span>
+					</div>
 				</CardContent>
 			</Card>
 			<AlertDialog open={showClearPokemonModal} onOpenChange={setShowClearPokemonModal}>
@@ -109,9 +156,11 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 									...selectedPokemon,
 									name: '',
 									language: '',
+									level: undefined,
 								});
 								setSelectedPokemonName('');
 								setSelectedPokemonLanguage('');
+								setSelectedPokemonLevel('');
 							}}
 							>
 								Clear pokemon

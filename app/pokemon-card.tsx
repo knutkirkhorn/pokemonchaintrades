@@ -85,6 +85,7 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 						title="Clear pokémon"
 						className="text-xs"
 						onClick={() => setShowClearPokemonModal(true)}
+						disabled={selectedPokemon.name === '' && selectedPokemon.language === '' && selectedPokemon.level === undefined}
 					>
 						<Eraser className="w-4 h-4 p-0 m-0" />
 					</Button>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
 	Card,
 	CardContent,
@@ -52,6 +52,13 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 	const [selectedPokemonLevel, setSelectedPokemonLevel] = useState(`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`);
 	const [selectedPokemonGender, setSelectedPokemonGender] = useState(selectedPokemon.gender);
 	const [showClearPokemonModal, setShowClearPokemonModal] = useState(false);
+
+	useEffect(() => {
+		setSelectedPokemonName(selectedPokemon.name);
+		setSelectedPokemonLanguage(selectedPokemon.language);
+		setSelectedPokemonLevel(`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`);
+		setSelectedPokemonGender(selectedPokemon.gender);
+	}, [selectedPokemon]);
 
 	const onLevelInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const parsedLevel = Number.parseInt(event.target.value, 10);

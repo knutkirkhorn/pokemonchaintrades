@@ -21,6 +21,7 @@ export function TradeStep({
 	step,
 	onSelectedFirstPokemon,
 	onSelectedSecondPokemon,
+	onSwapPokemon,
 }:
 {
 	firstPokemon: Pokemon,
@@ -29,6 +30,7 @@ export function TradeStep({
 	step: number,
 	onSelectedFirstPokemon: (newSelectedPokemon: Pokemon) => void,
 	onSelectedSecondPokemon: (newSelectedPokemon: Pokemon) => void,
+	onSwapPokemon?: () => void,
 }) {
 	const [showDeleteTradeStepModal, setShowDeleteTradeStepModal] = useState(false);
 
@@ -47,8 +49,16 @@ export function TradeStep({
 			</div>
 			<div className="flex flex-col md:flex-row items-center align-middle justify-center space-x-0 md:space-x-4 space-y-4 md:space-y-0">
 				<PokemonCard first={step === 0} selectedPokemon={firstPokemon} onSelectedPokemon={onSelectedFirstPokemon} />
-				<ArrowDown className="inline-block md:hidden text-muted-foreground" />
-				<ArrowRight className="hidden md:inline-block text-muted-foreground" />
+				<Button
+					className="bg-transparent m-0 p-2 text-muted-foreground"
+					variant="secondary"
+					size="sm"
+					onClick={onSwapPokemon}
+					title="Swap pokémon"
+				>
+					<ArrowDown className="inline-block md:hidden" />
+					<ArrowRight className="hidden md:inline-block" />
+				</Button>
 				<PokemonCard selectedPokemon={secondPokemon} onSelectedPokemon={onSelectedSecondPokemon} />
 				<Button
 					size="sm"

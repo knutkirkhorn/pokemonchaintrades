@@ -87,6 +87,21 @@ export default function Home() {
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};
 
+	const onSwapPokemon = (id: string) => {
+		const newPokemonTrades = pokemonTrades.map(pokemonTrade => {
+			if (pokemonTrade.id !== id) return pokemonTrade;
+
+			const temporary = pokemonTrade.firstPokemon;
+			return {
+				...pokemonTrade,
+				firstPokemon: pokemonTrade.secondPokemon,
+				secondPokemon: temporary,
+			};
+		});
+		setPokemonTrades(newPokemonTrades);
+		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
+	};
+
 	return (
 		<main className="flex min-h-screen flex-col p-16 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-gray-900 dark:to-black">
 			<Header />
@@ -104,6 +119,7 @@ export default function Home() {
 							secondPokemon={trade.secondPokemon}
 							onSelectedFirstPokemon={selectedPokemon => onSelectedFirstPokemon(trade.id, selectedPokemon)}
 							onSelectedSecondPokemon={selectedPokemon => onSelectedSecondPokemon(trade.id, selectedPokemon)}
+							onSwapPokemon={() => onSwapPokemon(trade.id)}
 							onDelete={() => onDeleteStep(index)}
 							step={index}
 						/>

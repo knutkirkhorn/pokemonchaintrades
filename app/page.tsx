@@ -45,13 +45,14 @@ export default function Home() {
 	}, []);
 
 	const onAddStep = () => {
-		const lastPokemon = pokemonTrades.at(-1)?.secondPokemon ?? {name: '', language: ''};
+		const lastPokemon = pokemonTrades.at(-1)?.secondPokemon ?? {name: '', language: '', gender: ''};
 		const newPokemonTrades = [...pokemonTrades, {
 			id: crypto.randomUUID(),
 			firstPokemon: lastPokemon,
 			secondPokemon: {
 				name: '',
 				language: '' as Pokemon['language'],
+				gender: '' as Pokemon['gender'],
 			},
 		}];
 		setPokemonTrades(newPokemonTrades);

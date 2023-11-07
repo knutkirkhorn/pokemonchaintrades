@@ -50,6 +50,7 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 	const [selectedPokemonName, setSelectedPokemonName] = useState(selectedPokemon.name);
 	const [selectedPokemonLanguage, setSelectedPokemonLanguage] = useState(selectedPokemon.language);
 	const [selectedPokemonLevel, setSelectedPokemonLevel] = useState(`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`);
+	const [selectedPokemonGender, setSelectedPokemonGender] = useState(selectedPokemon.gender);
 	const [showClearPokemonModal, setShowClearPokemonModal] = useState(false);
 
 	const onLevelInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +86,12 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 						title="Clear pokémon"
 						className="text-xs"
 						onClick={() => setShowClearPokemonModal(true)}
-						disabled={selectedPokemon.name === '' && selectedPokemon.language === '' && selectedPokemon.level === undefined}
+						disabled={
+							selectedPokemon.name === ''
+							&& selectedPokemon.language === ''
+							&& selectedPokemon.level === undefined
+							&& selectedPokemon.gender === ''
+						}
 					>
 						<Eraser className="w-4 h-4 p-0 m-0" />
 					</Button>
@@ -139,6 +145,26 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 						/>
 						<span className=" text-sm">{getLevelRange(Number.parseInt(selectedPokemonLevel, 10))}</span>
 					</div>
+					<Select
+						defaultValue={selectedPokemonGender}
+						value={selectedPokemonGender}
+						onValueChange={selectedGender => {
+							onSelectedPokemon({
+								...selectedPokemon,
+								gender: selectedGender as Pokemon['gender'],
+							});
+							setSelectedPokemonGender(selectedGender as Pokemon['gender']);
+						}}
+					>
+						<SelectTrigger>
+							<SelectValue placeholder="Gender" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="unset">Unset</SelectItem>
+							<SelectItem value="female">Female</SelectItem>
+							<SelectItem value="male">Male</SelectItem>
+						</SelectContent>
+					</Select>
 				</CardContent>
 			</Card>
 			<AlertDialog open={showClearPokemonModal} onOpenChange={setShowClearPokemonModal}>
@@ -158,10 +184,12 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 									name: '',
 									language: '',
 									level: undefined,
+									gender: '',
 								});
 								setSelectedPokemonName('');
 								setSelectedPokemonLanguage('');
 								setSelectedPokemonLevel('');
+								setSelectedPokemonGender('');
 							}}
 							>
 								Clear pokemon

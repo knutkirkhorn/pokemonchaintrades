@@ -27,6 +27,7 @@ import {
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import {Input} from '@/components/ui/input';
+import GameTravelSelector from '@/components/game-travel-selector';
 import {Pokemon} from './types';
 
 const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map(pokemonName => ({
@@ -98,6 +99,7 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 							&& selectedPokemon.language === ''
 							&& selectedPokemon.level === undefined
 							&& selectedPokemon.gender === ''
+							&& selectedPokemon.canTravelTo === undefined
 						}
 					>
 						<Eraser className="w-4 h-4 p-0 m-0" />
@@ -172,6 +174,15 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 							<SelectItem value="male">Male</SelectItem>
 						</SelectContent>
 					</Select>
+					<GameTravelSelector
+						games={selectedPokemon.canTravelTo}
+						onChange={newGameTravels => {
+							onSelectedPokemon({
+								...selectedPokemon,
+								canTravelTo: newGameTravels,
+							});
+						}}
+					/>
 				</CardContent>
 			</Card>
 			<AlertDialog open={showClearPokemonModal} onOpenChange={setShowClearPokemonModal}>
@@ -192,6 +203,7 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 									language: '',
 									level: undefined,
 									gender: '',
+									canTravelTo: undefined,
 								});
 								setSelectedPokemonName('');
 								setSelectedPokemonLanguage('');

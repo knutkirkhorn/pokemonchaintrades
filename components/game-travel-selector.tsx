@@ -1,6 +1,7 @@
 import React from 'react';
 import {PokemonGame} from '@/app/types';
 import {Toggle} from './ui/toggle';
+import {Label} from './ui/label';
 
 type GameOption = {
 	value: PokemonGame,
@@ -38,27 +39,30 @@ const gameOptions: GameOption[] = [
 
 export default function GameTravelSelector({games, onChange}: {games?: PokemonGame[], onChange: (newGameTravels: PokemonGame[]) => void}) {
 	return (
-		<div className="flex space-x-2">
-			{gameOptions.map(gameOption => (
-				<Toggle
-					key={gameOption.value}
-					pressed={games?.includes(gameOption.value) ?? false}
-					onPressedChange={pressed => {
-						const newGameTravels = games?.includes(gameOption.value)
-							? games.filter(game => game !== gameOption.value)
-							: [...(games ?? []), gameOption.value];
-						onChange(newGameTravels);
-						console.log('pressed', pressed);
-					}}
-					size="sm"
-					variant="outline"
-					className=""
-					title={gameOption.title}
-					aria-label={gameOption.title}
-				>
-					{gameOption.text}
-				</Toggle>
-			))}
+		<div className="flex flex-col space-y-2">
+			<Label>Can travel to</Label>
+			<div className="flex space-x-2">
+				{gameOptions.map(gameOption => (
+					<Toggle
+						key={gameOption.value}
+						pressed={games?.includes(gameOption.value) ?? false}
+						onPressedChange={pressed => {
+							const newGameTravels = games?.includes(gameOption.value)
+								? games.filter(game => game !== gameOption.value)
+								: [...(games ?? []), gameOption.value];
+							onChange(newGameTravels);
+							console.log('pressed', pressed);
+						}}
+						size="sm"
+						variant="outline"
+						className=""
+						title={gameOption.title}
+						aria-label={gameOption.title}
+					>
+						{gameOption.text}
+					</Toggle>
+				))}
+			</div>
 		</div>
 	);
 }

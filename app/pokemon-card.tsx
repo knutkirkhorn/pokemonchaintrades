@@ -76,7 +76,6 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 
 		// If the input contains a non-number character, reset the level
 		if (Number.isNaN(parsedLevel)) {
-			setSelectedPokemonLevel('');
 			onSelectedPokemon({
 				...selectedPokemon,
 				level: undefined,
@@ -86,7 +85,6 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 
 		// Set the level in the range 1 - 100
 		const newLevel = Math.max(1, Math.min(100, parsedLevel));
-		setSelectedPokemonLevel(`${newLevel}`);
 		onSelectedPokemon({
 			...selectedPokemon,
 			level: newLevel,
@@ -124,7 +122,6 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 								...selectedPokemon,
 								name: newSelectedPokemon,
 							});
-							setSelectedPokemonName(newSelectedPokemon);
 						}}
 					/>
 					<CardInput label="Language">
@@ -136,7 +133,6 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 									...selectedPokemon,
 									language: selectedLanguage as Pokemon['language'],
 								});
-								setSelectedPokemonLanguage(selectedLanguage as Pokemon['language']);
 							}}
 						>
 							<SelectTrigger>
@@ -177,7 +173,6 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 									...selectedPokemon,
 									gender: selectedGender as Pokemon['gender'],
 								});
-								setSelectedPokemonGender(selectedGender as Pokemon['gender']);
 							}}
 						>
 							<SelectTrigger>
@@ -221,10 +216,6 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 									gender: '',
 									canTravelTo: undefined,
 								});
-								setSelectedPokemonName('');
-								setSelectedPokemonLanguage('');
-								setSelectedPokemonLevel('');
-								setSelectedPokemonGender('');
 							}}
 							>
 								Clear pokemon

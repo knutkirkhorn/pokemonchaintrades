@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import {Input} from '@/components/ui/input';
 import GameTravelSelector from '@/components/game-travel-selector';
+import {Label} from '@/components/ui/label';
 import {Pokemon} from './types';
 
 const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map(pokemonName => ({
@@ -45,6 +46,15 @@ function getLevelRange(level: number) {
 	const startRange = Math.max(1, Math.floor((level - 1) / 10) * 10 + 1);
 	const endRange = Math.min(100, Math.ceil((level) / 10) * 10);
 	return `(${startRange} - ${endRange})`;
+}
+
+function CardInput({label, children}: {label: string, children: React.ReactNode}) {
+	return (
+		<div className="flex flex-col space-y-2 pt-2">
+			<Label>{label}</Label>
+			{children}
+		</div>
+	);
 }
 
 export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}: {first?: boolean, selectedPokemon: Pokemon, onSelectedPokemon: (newSelectedPokemon: Pokemon) => void}) {
@@ -117,63 +127,69 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 							setSelectedPokemonName(newSelectedPokemon);
 						}}
 					/>
-					<Select
-						defaultValue={selectedPokemonLanguage}
-						value={selectedPokemonLanguage}
-						onValueChange={selectedLanguage => {
-							onSelectedPokemon({
-								...selectedPokemon,
-								language: selectedLanguage as Pokemon['language'],
-							});
-							setSelectedPokemonLanguage(selectedLanguage as Pokemon['language']);
-						}}
-					>
-						<SelectTrigger>
-							<SelectValue placeholder="Language" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="english">ENG</SelectItem>
-							<SelectItem value="spanish">SP-EU</SelectItem>
-							<SelectItem value="french">FRE</SelectItem>
-							<SelectItem value="german">GER</SelectItem>
-							<SelectItem value="italian">ITA</SelectItem>
-							<SelectItem value="japanese">JPN</SelectItem>
-							<SelectItem value="korean">KOR</SelectItem>
-							<SelectItem value="chinese_simplified">CHS</SelectItem>
-							<SelectItem value="chinese_traditional">CHT</SelectItem>
-						</SelectContent>
-					</Select>
-					<div className="flex flex-row items-center space-x-2">
-						<Input
-							className="w-28"
-							min={1}
-							max={100}
-							placeholder="Level"
-							value={selectedPokemonLevel}
-							onChange={onLevelInputChange}
-						/>
-						<span className=" text-sm">{getLevelRange(Number.parseInt(selectedPokemonLevel, 10))}</span>
-					</div>
-					<Select
-						defaultValue={selectedPokemonGender}
-						value={selectedPokemonGender}
-						onValueChange={selectedGender => {
-							onSelectedPokemon({
-								...selectedPokemon,
-								gender: selectedGender as Pokemon['gender'],
-							});
-							setSelectedPokemonGender(selectedGender as Pokemon['gender']);
-						}}
-					>
-						<SelectTrigger>
-							<SelectValue placeholder="Gender" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="unset">Unset</SelectItem>
-							<SelectItem value="female">Female</SelectItem>
-							<SelectItem value="male">Male</SelectItem>
-						</SelectContent>
-					</Select>
+					<CardInput label="Language">
+						<Select
+							defaultValue={selectedPokemonLanguage}
+							value={selectedPokemonLanguage}
+							onValueChange={selectedLanguage => {
+								onSelectedPokemon({
+									...selectedPokemon,
+									language: selectedLanguage as Pokemon['language'],
+								});
+								setSelectedPokemonLanguage(selectedLanguage as Pokemon['language']);
+							}}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Language" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="english">ENG</SelectItem>
+								<SelectItem value="spanish">SP-EU</SelectItem>
+								<SelectItem value="french">FRE</SelectItem>
+								<SelectItem value="german">GER</SelectItem>
+								<SelectItem value="italian">ITA</SelectItem>
+								<SelectItem value="japanese">JPN</SelectItem>
+								<SelectItem value="korean">KOR</SelectItem>
+								<SelectItem value="chinese_simplified">CHS</SelectItem>
+								<SelectItem value="chinese_traditional">CHT</SelectItem>
+							</SelectContent>
+						</Select>
+					</CardInput>
+					<CardInput label="Level">
+						<div className="flex flex-row items-center space-x-2">
+							<Input
+								className="w-28"
+								min={1}
+								max={100}
+								placeholder="Level"
+								value={selectedPokemonLevel}
+								onChange={onLevelInputChange}
+							/>
+							<span className=" text-sm">{getLevelRange(Number.parseInt(selectedPokemonLevel, 10))}</span>
+						</div>
+					</CardInput>
+					<CardInput label="Gender">
+						<Select
+							defaultValue={selectedPokemonGender}
+							value={selectedPokemonGender}
+							onValueChange={selectedGender => {
+								onSelectedPokemon({
+									...selectedPokemon,
+									gender: selectedGender as Pokemon['gender'],
+								});
+								setSelectedPokemonGender(selectedGender as Pokemon['gender']);
+							}}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Gender" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="unset">Unset</SelectItem>
+								<SelectItem value="female">Female</SelectItem>
+								<SelectItem value="male">Male</SelectItem>
+							</SelectContent>
+						</Select>
+					</CardInput>
 					<GameTravelSelector
 						games={selectedPokemon.canTravelTo}
 						onChange={newGameTravels => {

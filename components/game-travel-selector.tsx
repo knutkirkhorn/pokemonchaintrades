@@ -39,7 +39,7 @@ const gameOptions: GameOption[] = [
 
 export default function GameTravelSelector({games, onChange}: {games?: PokemonGame[], onChange: (newGameTravels: PokemonGame[]) => void}) {
 	return (
-		<div className="flex flex-col space-y-2">
+		<div className="flex flex-col space-y-2 pt-2">
 			<Label>Can travel to</Label>
 			<div className="flex space-x-2">
 				{gameOptions.map(gameOption => (

@@ -103,7 +103,7 @@ export default function Home() {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-col p-16 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-gray-900 dark:to-black">
+		<main className="flex min-h-screen flex-col px-16 py-4 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-gray-900 dark:to-black">
 			<Header />
 			<div className="flex flex-col items-center space-y-4">
 				{isLoading ? (

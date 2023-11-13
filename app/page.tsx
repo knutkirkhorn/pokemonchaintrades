@@ -5,6 +5,16 @@ import {Button} from '@/components/ui/button';
 import {Plus} from 'lucide-react';
 import React, {useEffect, useState} from 'react';
 import Spinner from '@/components/spinner';
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import {Pokemon} from './types';
 import {TradeStep} from './trade-step';
 
@@ -24,6 +34,7 @@ type PokemonTrade = {
 export default function Home() {
 	const [pokemonTrades, setPokemonTrades] = useState<PokemonTrade[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [showClearTradeModal, setShowClearTradeModal] = useState(false);
 
 	useEffect(() => {
 		const savedPokemonTrades = localStorage.getItem('pokemonTrades');
@@ -102,10 +113,18 @@ export default function Home() {
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};
 
+	const clearTrade = () => {
+		setPokemonTrades([]);
+		localStorage.removeItem('pokemonTrades');
+	};
+
 	return (
 		<main className="flex min-h-screen flex-col px-16 py-4 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-gray-900 dark:to-black">
 			<Header />
 			<div className="flex flex-col items-center space-y-4">
+				<Button className="flex-end" disabled={pokemonTrades.length === 0} onClick={() => setShowClearTradeModal(true)}>
+					Clear trade
+				</Button>
 				{isLoading ? (
 					<div className="flex flex-row items-center">
 						<Spinner />
@@ -130,6 +149,24 @@ export default function Home() {
 					Add step
 				</Button>
 			</div>
+			<AlertDialog open={showClearTradeModal} onOpenChange={setShowClearTradeModal}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Clear trade?</AlertDialogTitle>
+						<AlertDialogDescription>
+							You cannot undo this action.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction asChild>
+							<Button onClick={clearTrade}>
+								Clear trade
+							</Button>
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 		</main>
 	);
 }

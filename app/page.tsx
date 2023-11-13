@@ -34,7 +34,7 @@ type PokemonTrade = {
 export default function Home() {
 	const [pokemonTrades, setPokemonTrades] = useState<PokemonTrade[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [showClearTradeModal, setShowClearTradeModal] = useState(false);
+	const [showClearChainModal, setShowClearChainModal] = useState(false);
 
 	useEffect(() => {
 		const savedPokemonTrades = localStorage.getItem('pokemonTrades');
@@ -122,8 +122,8 @@ export default function Home() {
 		<main className="flex min-h-screen flex-col px-16 py-4 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-gray-900 dark:to-black">
 			<Header />
 			<div className="flex flex-col items-center space-y-4">
-				<Button className="flex-end" disabled={pokemonTrades.length === 0} onClick={() => setShowClearTradeModal(true)}>
-					Clear trade
+				<Button className="flex-end" disabled={pokemonTrades.length === 0} onClick={() => setShowClearChainModal(true)}>
+					Clear chain
 				</Button>
 				{isLoading ? (
 					<div className="flex flex-row items-center">
@@ -149,10 +149,10 @@ export default function Home() {
 					Add step
 				</Button>
 			</div>
-			<AlertDialog open={showClearTradeModal} onOpenChange={setShowClearTradeModal}>
+			<AlertDialog open={showClearChainModal} onOpenChange={setShowClearChainModal}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Clear trade?</AlertDialogTitle>
+						<AlertDialogTitle>Clear chain?</AlertDialogTitle>
 						<AlertDialogDescription>
 							You cannot undo this action.
 						</AlertDialogDescription>
@@ -161,7 +161,7 @@ export default function Home() {
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
 						<AlertDialogAction asChild>
 							<Button onClick={clearTrade}>
-								Clear trade
+								Clear chain
 							</Button>
 						</AlertDialogAction>
 					</AlertDialogFooter>

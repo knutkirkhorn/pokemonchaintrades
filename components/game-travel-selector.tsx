@@ -41,7 +41,7 @@ export default function GameTravelSelector({games, onChange}: {games?: PokemonGa
 	return (
 		<div className="flex flex-col space-y-2 pt-2">
 			<Label>Can travel to</Label>
-			<div className="flex space-x-2">
+			<div className="flex flex-wrap gap-2">
 				{gameOptions.map(gameOption => (
 					<Toggle
 						key={gameOption.value}

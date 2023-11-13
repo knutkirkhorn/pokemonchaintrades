@@ -16,8 +16,10 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
+import Image from 'next/image';
 
 export type ComboBoxOption = {
+	index: number,
 	value: string,
 	label: string,
 };
@@ -47,9 +49,19 @@ export function PokemonCombobox({
 					aria-expanded={isOpen}
 					className="w-full justify-between"
 				>
-					{selectedPokemon
-						? pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.label
-						: 'Select a Pokemon...'}
+					<div className="flex items-center gap-2">
+						{selectedPokemon && (
+							<Image
+								width={40}
+								height={40}
+								src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.index + 1}.png`}
+								alt={pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.label || ''}
+							/>
+						)}
+						{selectedPokemon
+							? pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.label
+							: 'Select a Pokemon...'}
+					</div>
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
 			</PopoverTrigger>
@@ -72,6 +84,12 @@ export function PokemonCombobox({
 										'mr-2 h-4 w-4',
 										selectedPokemon === currentPokemon.value ? 'opacity-100' : 'opacity-0',
 									)}
+								/>
+								<Image
+									width={40}
+									height={40}
+									src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${currentPokemon.index + 1}.png`}
+									alt={currentPokemon.label}
 								/>
 								{currentPokemon.label}
 							</CommandItem>

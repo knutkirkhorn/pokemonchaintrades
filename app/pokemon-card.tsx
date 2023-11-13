@@ -31,7 +31,8 @@ import GameTravelSelector from '@/components/game-travel-selector';
 import {Label} from '@/components/ui/label';
 import {Pokemon} from './types';
 
-const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map(pokemonName => ({
+const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map((pokemonName, index) => ({
+	index,
 	value: pokemonName,
 	label: pokemonName,
 }));

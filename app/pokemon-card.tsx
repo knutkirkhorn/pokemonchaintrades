@@ -93,7 +93,7 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 
 	return (
 		<>
-			<Card className="space-y-2 shadow">
+			<Card className="space-y-2 shadow min-w-[320px]">
 				<CardHeader className="flex flex-row items-center justify-between pb-2">
 					<CardTitle className="text-sm font-semibold">{first ? 'Your pokémon' : 'Others pokémon'}</CardTitle>
 					<Button

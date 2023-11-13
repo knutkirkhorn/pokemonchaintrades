@@ -24,6 +24,24 @@ export type ComboBoxOption = {
 	label: string,
 };
 
+function getComboboxDisplay(selectedPokemon: string, pokemonOptions: ComboBoxOption[]) {
+	const pokemon = pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon);
+
+	if (!pokemon) return 'Select a Pokemon...';
+
+	return (
+		<>
+			<Image
+				width={40}
+				height={40}
+				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.index + 1}.png`}
+				alt={pokemon.label}
+			/>
+			{pokemon.label}
+		</>
+	);
+}
+
 export function PokemonCombobox({
 	pokemonOptions,
 	initialSelectedPokemon,
@@ -50,16 +68,8 @@ export function PokemonCombobox({
 					className="w-full justify-between"
 				>
 					<div className="flex items-center gap-2">
-						{selectedPokemon && (
-							<Image
-								width={40}
-								height={40}
-								src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.index + 1}.png`}
-								alt={pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.label || ''}
-							/>
-						)}
 						{selectedPokemon
-							? pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.label
+							? getComboboxDisplay(selectedPokemon, pokemonOptions)
 							: 'Select a Pokemon...'}
 					</div>
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

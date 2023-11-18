@@ -22,7 +22,7 @@
 		"clsx": "^2.0.0",
 		"cmdk": "^0.2.0",
 		"lucide-react": "^0.292.0",
-		"next": "^14.0.3",
+		"next": "^14.0.4-canary.3",
 		"next-themes": "^0.2.1",
 		"pokemon": "^2.3.6",
 		"react": "^18",

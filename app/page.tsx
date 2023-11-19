@@ -15,6 +15,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {useToast} from '@/components/ui/use-toast';
 import {Pokemon} from './types';
 import {TradeStep} from './trade-step';
 
@@ -35,6 +36,7 @@ export default function Home() {
 	const [pokemonTrades, setPokemonTrades] = useState<PokemonTrade[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showClearChainModal, setShowClearChainModal] = useState(false);
+	const {toast} = useToast();
 
 	useEffect(() => {
 		const savedPokemonTrades = localStorage.getItem('pokemonTrades');
@@ -111,6 +113,9 @@ export default function Home() {
 		});
 		setPokemonTrades(newPokemonTrades);
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
+		toast({
+			title: 'Pokémon swapped!',
+		});
 	};
 
 	const clearTrade = () => {

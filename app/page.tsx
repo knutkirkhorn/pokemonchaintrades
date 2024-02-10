@@ -1,10 +1,8 @@
 'use client';
 
-import Header from '@/components/header';
-import {Button} from '@/components/ui/button';
-import {Plus} from 'lucide-react';
 import React, {useEffect, useState} from 'react';
-import Spinner from '@/components/spinner';
+import {Plus} from 'lucide-react';
+
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -15,19 +13,23 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {Button} from '@/components/ui/button';
 import {useToast} from '@/components/ui/use-toast';
-import {Pokemon} from './types';
+import Header from '@/components/header';
+import Spinner from '@/components/spinner';
+
 import {TradeStep} from './trade-step';
+import {Pokemon} from './types';
 
 // TODO: remove this later :)
 type LegacyPokemonTrade = {
-	id: string,
+	id: string;
 	firstPokemon: string;
 	secondPokemon: string;
 };
 
 type PokemonTrade = {
-	id: string,
+	id: string;
 	firstPokemon: Pokemon;
 	secondPokemon: Pokemon;
 };
@@ -41,39 +43,54 @@ export default function Home() {
 	useEffect(() => {
 		const savedPokemonTrades = localStorage.getItem('pokemonTrades');
 		if (savedPokemonTrades) {
-			const parsedPokemonTrades = JSON.parse(savedPokemonTrades).map((pokemonTrade: PokemonTrade | LegacyPokemonTrade) => {
-				// TODO: just for backwards compatibility, remove this later :)
-				if (typeof pokemonTrade.firstPokemon === 'string' || typeof pokemonTrade.secondPokemon === 'string') {
-					return {
-						...pokemonTrade,
-						firstPokemon: {name: pokemonTrade.firstPokemon, language: ''},
-						secondPokemon: {name: pokemonTrade.secondPokemon, language: ''},
-					};
-				}
-				return pokemonTrade;
-			});
+			const parsedPokemonTrades = JSON.parse(savedPokemonTrades).map(
+				(pokemonTrade: PokemonTrade | LegacyPokemonTrade) => {
+					// TODO: just for backwards compatibility, remove this later :)
+					if (
+						typeof pokemonTrade.firstPokemon === 'string' ||
+						typeof pokemonTrade.secondPokemon === 'string'
+					) {
+						return {
+							...pokemonTrade,
+							firstPokemon: {name: pokemonTrade.firstPokemon, language: ''},
+							secondPokemon: {name: pokemonTrade.secondPokemon, language: ''},
+						};
+					}
+					return pokemonTrade;
+				},
+			);
 			setPokemonTrades(parsedPokemonTrades);
 		}
 		setIsLoading(false);
 	}, []);
 
 	const onAddStep = () => {
-		const lastPokemon = pokemonTrades.at(-1)?.secondPokemon ?? {name: '', language: '', gender: ''};
-		const newPokemonTrades = [...pokemonTrades, {
-			id: crypto.randomUUID(),
-			firstPokemon: lastPokemon,
-			secondPokemon: {
-				name: '',
-				language: '' as Pokemon['language'],
-				gender: '' as Pokemon['gender'],
+		const lastPokemon = pokemonTrades.at(-1)?.secondPokemon ?? {
+			name: '',
+			language: '',
+			gender: '',
+		};
+		const newPokemonTrades = [
+			...pokemonTrades,
+			{
+				id: crypto.randomUUID(),
+				firstPokemon: lastPokemon,
+				secondPokemon: {
+					name: '',
+					language: '' as Pokemon['language'],
+					gender: '' as Pokemon['gender'],
+				},
 			},
-		}];
+		];
 		setPokemonTrades(newPokemonTrades);
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};
 
 	const onDeleteStep = (index: number) => {
-		const newPokemonTrades = [...pokemonTrades.slice(0, index), ...pokemonTrades.slice(index + 1)];
+		const newPokemonTrades = [
+			...pokemonTrades.slice(0, index),
+			...pokemonTrades.slice(index + 1),
+		];
 		setPokemonTrades(newPokemonTrades);
 		localStorage.setItem('pokemonTrades', JSON.stringify(newPokemonTrades));
 	};
@@ -127,7 +144,11 @@ export default function Home() {
 		<main className="flex min-h-screen flex-col px-16 py-4 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-gray-900 dark:to-black">
 			<Header />
 			<div className="flex flex-col items-center space-y-4">
-				<Button className="flex-end" disabled={pokemonTrades.length === 0} onClick={() => setShowClearChainModal(true)}>
+				<Button
+					className="flex-end"
+					disabled={pokemonTrades.length === 0}
+					onClick={() => setShowClearChainModal(true)}
+				>
 					Clear chain
 				</Button>
 				{isLoading ? (
@@ -141,8 +162,12 @@ export default function Home() {
 							key={trade.id}
 							firstPokemon={trade.firstPokemon}
 							secondPokemon={trade.secondPokemon}
-							onSelectedFirstPokemon={selectedPokemon => onSelectedFirstPokemon(trade.id, selectedPokemon)}
-							onSelectedSecondPokemon={selectedPokemon => onSelectedSecondPokemon(trade.id, selectedPokemon)}
+							onSelectedFirstPokemon={selectedPokemon =>
+								onSelectedFirstPokemon(trade.id, selectedPokemon)
+							}
+							onSelectedSecondPokemon={selectedPokemon =>
+								onSelectedSecondPokemon(trade.id, selectedPokemon)
+							}
 							onSwapPokemon={() => onSwapPokemon(trade.id)}
 							onDelete={() => onDeleteStep(index)}
 							step={index}
@@ -154,7 +179,10 @@ export default function Home() {
 					Add step
 				</Button>
 			</div>
-			<AlertDialog open={showClearChainModal} onOpenChange={setShowClearChainModal}>
+			<AlertDialog
+				open={showClearChainModal}
+				onOpenChange={setShowClearChainModal}
+			>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Clear chain?</AlertDialogTitle>
@@ -165,9 +193,7 @@ export default function Home() {
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
 						<AlertDialogAction asChild>
-							<Button onClick={clearTrade}>
-								Clear chain
-							</Button>
+							<Button onClick={clearTrade}>Clear chain</Button>
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>

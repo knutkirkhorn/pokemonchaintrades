@@ -1,19 +1,21 @@
 import React from 'react';
+
 import {PokemonGame} from '@/app/types';
-import {Toggle} from './ui/toggle';
+
 import {Label} from './ui/label';
+import {Toggle} from './ui/toggle';
 
 type GameOption = {
-	value: PokemonGame,
-	text: string,
-	title: string,
+	value: PokemonGame;
+	text: string;
+	title: string;
 };
 
 const gameOptions: GameOption[] = [
 	{
 		value: 'lgpe',
 		text: 'LGPE',
-		title: 'Toggle Let\'s Go, Pikachu! & Let\'s Go, Eevee!',
+		title: "Toggle Let's Go, Pikachu! & Let's Go, Eevee!",
 	},
 	{
 		value: 'swsh',
@@ -37,7 +39,13 @@ const gameOptions: GameOption[] = [
 	},
 ];
 
-export default function GameTravelSelector({games, onChange}: {games?: PokemonGame[], onChange: (newGameTravels: PokemonGame[]) => void}) {
+export default function GameTravelSelector({
+	games,
+	onChange,
+}: {
+	games?: PokemonGame[];
+	onChange: (newGameTravels: PokemonGame[]) => void;
+}) {
 	return (
 		<div className="flex flex-col space-y-2 pt-2">
 			<Label>Can travel to</Label>

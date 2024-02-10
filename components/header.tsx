@@ -1,16 +1,16 @@
 import React from 'react';
 import {Github} from 'lucide-react';
-import ThemeSwitcherButton from './theme-switcher-button';
-import {Button} from './ui/button';
+
 import HeaderDropdown from './header-dropdown';
 import {Icons} from './icons';
+import ThemeSwitcherButton from './theme-switcher-button';
+import {Button} from './ui/button';
 
 export default function Header() {
 	return (
 		<header className="flex flex-row mb-5">
 			<h1 className="text-lg font-bold text-center text-gray-800 dark:text-slate-100">
-				Pokemon
-				ChainTrades
+				Pokemon ChainTrades
 			</h1>
 			<div className="flex justify-end items-center w-full mb-8 sm:mb-0">
 				<HeaderDropdown />

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Button} from '@/components/ui/button';
 import {ArrowDown, ArrowRight, Trash} from 'lucide-react';
+
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -11,8 +11,10 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import {Pokemon} from './types';
+import {Button} from '@/components/ui/button';
+
 import PokemonCard from './pokemon-card';
+import {Pokemon} from './types';
 
 export function TradeStep({
 	firstPokemon,
@@ -22,33 +24,40 @@ export function TradeStep({
 	onSelectedFirstPokemon,
 	onSelectedSecondPokemon,
 	onSwapPokemon,
-}:
-{
-	firstPokemon: Pokemon,
-	secondPokemon: Pokemon,
-	onDelete?: () => void,
-	step: number,
-	onSelectedFirstPokemon: (newSelectedPokemon: Pokemon) => void,
-	onSelectedSecondPokemon: (newSelectedPokemon: Pokemon) => void,
-	onSwapPokemon?: () => void,
+}: {
+	firstPokemon: Pokemon;
+	secondPokemon: Pokemon;
+	onDelete?: () => void;
+	step: number;
+	onSelectedFirstPokemon: (newSelectedPokemon: Pokemon) => void;
+	onSelectedSecondPokemon: (newSelectedPokemon: Pokemon) => void;
+	onSwapPokemon?: () => void;
 }) {
-	const [showDeleteTradeStepModal, setShowDeleteTradeStepModal] = useState(false);
+	const [showDeleteTradeStepModal, setShowDeleteTradeStepModal] =
+		useState(false);
 
 	return (
 		<div className="flex flex-col md:flex-row items-center align-middle justify-center space-x-0 md:space-x-4 p-4 bg-card rounded-md border shadow">
 			<p className="text-muted-foreground mr-4 hidden md:inline-block">
-				#
-				{step + 1}
+				#{step + 1}
 			</p>
 			<div className="flex flex-row md:hidden items-center justify-between w-full mb-4">
-				<p className="text-muted-foreground mr-4">
-					#
-					{step + 1}
-				</p>
-				<Button size="sm" variant="secondary" onClick={() => setShowDeleteTradeStepModal(true)} title="Delete step"><Trash className="w-4 h-4" /></Button>
+				<p className="text-muted-foreground mr-4">#{step + 1}</p>
+				<Button
+					size="sm"
+					variant="secondary"
+					onClick={() => setShowDeleteTradeStepModal(true)}
+					title="Delete step"
+				>
+					<Trash className="w-4 h-4" />
+				</Button>
 			</div>
 			<div className="flex flex-col md:flex-row items-center align-middle justify-center space-x-0 md:space-x-4 space-y-4 md:space-y-0">
-				<PokemonCard first={step === 0} selectedPokemon={firstPokemon} onSelectedPokemon={onSelectedFirstPokemon} />
+				<PokemonCard
+					first={step === 0}
+					selectedPokemon={firstPokemon}
+					onSelectedPokemon={onSelectedFirstPokemon}
+				/>
 				<Button
 					className="bg-transparent m-0 p-2 text-muted-foreground"
 					variant="secondary"
@@ -59,7 +68,10 @@ export function TradeStep({
 					<ArrowDown className="inline-block md:hidden" />
 					<ArrowRight className="hidden md:inline-block" />
 				</Button>
-				<PokemonCard selectedPokemon={secondPokemon} onSelectedPokemon={onSelectedSecondPokemon} />
+				<PokemonCard
+					selectedPokemon={secondPokemon}
+					onSelectedPokemon={onSelectedSecondPokemon}
+				/>
 				<Button
 					size="sm"
 					variant="secondary"
@@ -70,7 +82,10 @@ export function TradeStep({
 					<Trash className="w-4 h-4" />
 				</Button>
 			</div>
-			<AlertDialog open={showDeleteTradeStepModal} onOpenChange={setShowDeleteTradeStepModal}>
+			<AlertDialog
+				open={showDeleteTradeStepModal}
+				onOpenChange={setShowDeleteTradeStepModal}
+			>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Delete trade step?</AlertDialogTitle>
@@ -81,9 +96,7 @@ export function TradeStep({
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
 						<AlertDialogAction asChild>
-							<Button onClick={onDelete}>
-								Delete step
-							</Button>
+							<Button onClick={onDelete}>Delete step</Button>
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>

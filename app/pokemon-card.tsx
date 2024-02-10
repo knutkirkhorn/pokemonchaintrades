@@ -1,21 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
-import {Button} from '@/components/ui/button';
 import {Eraser} from 'lucide-react';
-import {ComboBoxOption, PokemonCombobox} from '@/components/pokemon-combobox';
 import pokemon from 'pokemon';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
+
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -26,15 +12,28 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {Button} from '@/components/ui/button';
+import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
 import {Input} from '@/components/ui/input';
-import GameTravelSelector from '@/components/game-travel-selector';
 import {Label} from '@/components/ui/label';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
+import GameTravelSelector from '@/components/game-travel-selector';
+import {ComboBoxOption, PokemonCombobox} from '@/components/pokemon-combobox';
+
 import {Pokemon} from './types';
 
-const pokemonComboboxOptions: ComboBoxOption[] = pokemon.all().map(pokemonName => ({
-	value: pokemonName,
-	label: pokemonName,
-}));
+const pokemonComboboxOptions: ComboBoxOption[] = pokemon
+	.all()
+	.map(pokemonName => ({
+		value: pokemonName,
+		label: pokemonName,
+	}));
 
 // TODO: add tests for this function
 // Example inputs:
@@ -44,11 +43,17 @@ function getLevelRange(level: number) {
 	if (Number.isNaN(level)) return '';
 
 	const startRange = Math.max(1, Math.floor((level - 1) / 10) * 10 + 1);
-	const endRange = Math.min(100, Math.ceil((level) / 10) * 10);
+	const endRange = Math.min(100, Math.ceil(level / 10) * 10);
 	return `(${startRange} - ${endRange})`;
 }
 
-function CardInput({label, children}: {label: string, children: React.ReactNode}) {
+function CardInput({
+	label,
+	children,
+}: {
+	label: string;
+	children: React.ReactNode;
+}) {
 	return (
 		<div className="flex flex-col space-y-2 pt-2">
 			<Label>{label}</Label>
@@ -57,17 +62,35 @@ function CardInput({label, children}: {label: string, children: React.ReactNode}
 	);
 }
 
-export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}: {first?: boolean, selectedPokemon: Pokemon, onSelectedPokemon: (newSelectedPokemon: Pokemon) => void}) {
-	const [selectedPokemonName, setSelectedPokemonName] = useState(selectedPokemon.name);
-	const [selectedPokemonLanguage, setSelectedPokemonLanguage] = useState(selectedPokemon.language);
-	const [selectedPokemonLevel, setSelectedPokemonLevel] = useState(`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`);
-	const [selectedPokemonGender, setSelectedPokemonGender] = useState(selectedPokemon.gender);
+export default function PokemonCard({
+	first,
+	selectedPokemon,
+	onSelectedPokemon,
+}: {
+	first?: boolean;
+	selectedPokemon: Pokemon;
+	onSelectedPokemon: (newSelectedPokemon: Pokemon) => void;
+}) {
+	const [selectedPokemonName, setSelectedPokemonName] = useState(
+		selectedPokemon.name,
+	);
+	const [selectedPokemonLanguage, setSelectedPokemonLanguage] = useState(
+		selectedPokemon.language,
+	);
+	const [selectedPokemonLevel, setSelectedPokemonLevel] = useState(
+		`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`,
+	);
+	const [selectedPokemonGender, setSelectedPokemonGender] = useState(
+		selectedPokemon.gender,
+	);
 	const [showClearPokemonModal, setShowClearPokemonModal] = useState(false);
 
 	useEffect(() => {
 		setSelectedPokemonName(selectedPokemon.name);
 		setSelectedPokemonLanguage(selectedPokemon.language);
-		setSelectedPokemonLevel(`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`);
+		setSelectedPokemonLevel(
+			`${selectedPokemon.level === undefined ? '' : selectedPokemon.level}`,
+		);
 		setSelectedPokemonGender(selectedPokemon.gender);
 	}, [selectedPokemon]);
 
@@ -95,7 +118,9 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 		<>
 			<Card className="space-y-2 shadow min-w-[320px]">
 				<CardHeader className="flex flex-row items-center justify-between pb-2">
-					<CardTitle className="text-sm font-semibold">{first ? 'Your pokémon' : 'Others pokémon'}</CardTitle>
+					<CardTitle className="text-sm font-semibold">
+						{first ? 'Your pokémon' : 'Others pokémon'}
+					</CardTitle>
 					<Button
 						size="sm"
 						variant="secondary"
@@ -103,11 +128,11 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 						className="text-xs"
 						onClick={() => setShowClearPokemonModal(true)}
 						disabled={
-							selectedPokemon.name === ''
-							&& selectedPokemon.language === ''
-							&& selectedPokemon.level === undefined
-							&& selectedPokemon.gender === ''
-							&& selectedPokemon.canTravelTo === undefined
+							selectedPokemon.name === '' &&
+							selectedPokemon.language === '' &&
+							selectedPokemon.level === undefined &&
+							selectedPokemon.gender === '' &&
+							selectedPokemon.canTravelTo === undefined
 						}
 					>
 						<Eraser className="w-4 h-4 p-0 m-0" />
@@ -161,7 +186,9 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 								value={selectedPokemonLevel}
 								onChange={onLevelInputChange}
 							/>
-							<span className=" text-sm">{getLevelRange(Number.parseInt(selectedPokemonLevel, 10))}</span>
+							<span className=" text-sm">
+								{getLevelRange(Number.parseInt(selectedPokemonLevel, 10))}
+							</span>
 						</div>
 					</CardInput>
 					<CardInput label="Gender">
@@ -196,7 +223,10 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 					/>
 				</CardContent>
 			</Card>
-			<AlertDialog open={showClearPokemonModal} onOpenChange={setShowClearPokemonModal}>
+			<AlertDialog
+				open={showClearPokemonModal}
+				onOpenChange={setShowClearPokemonModal}
+			>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Clear pokémon?</AlertDialogTitle>
@@ -207,16 +237,17 @@ export default function PokemonCard({first, selectedPokemon, onSelectedPokemon}:
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
 						<AlertDialogAction asChild>
-							<Button onClick={() => {
-								onSelectedPokemon({
-									...selectedPokemon,
-									name: '',
-									language: '',
-									level: undefined,
-									gender: '',
-									canTravelTo: undefined,
-								});
-							}}
+							<Button
+								onClick={() => {
+									onSelectedPokemon({
+										...selectedPokemon,
+										name: '',
+										language: '',
+										level: undefined,
+										gender: '',
+										canTravelTo: undefined,
+									});
+								}}
 							>
 								Clear pokemon
 							</Button>

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import {
 	Toast,
 	ToastClose,
@@ -16,15 +17,11 @@ export function Toaster() {
 
 	return (
 		<ToastProvider>
-			{toasts.map(({
-				id, title, description, action, ...properties
-			}) => (
+			{toasts.map(({id, title, description, action, ...properties}) => (
 				<Toast key={id} {...properties}>
 					<div className="grid gap-1">
 						{title && <ToastTitle>{title}</ToastTitle>}
-						{description && (
-							<ToastDescription>{description}</ToastDescription>
-						)}
+						{description && <ToastDescription>{description}</ToastDescription>}
 					</div>
 					{action}
 					<ToastClose />

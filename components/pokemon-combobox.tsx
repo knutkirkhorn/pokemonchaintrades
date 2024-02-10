@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {Check, ChevronsUpDown} from 'lucide-react';
+
 import {cn} from '@/lib/utils';
 import {Button} from '@/components/ui/button';
 import {
@@ -11,15 +12,11 @@ import {
 	CommandInput,
 	CommandItem,
 } from '@/components/ui/command';
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover';
+import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
 
 export type ComboBoxOption = {
-	value: string,
-	label: string,
+	value: string;
+	label: string;
 };
 
 export function PokemonCombobox({
@@ -27,12 +24,14 @@ export function PokemonCombobox({
 	initialSelectedPokemon,
 	onSelectedPokemon,
 }: {
-	pokemonOptions: ComboBoxOption[],
-	initialSelectedPokemon: string,
-	onSelectedPokemon: (pokemon: string) => void,
+	pokemonOptions: ComboBoxOption[];
+	initialSelectedPokemon: string;
+	onSelectedPokemon: (pokemon: string) => void;
 }) {
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedPokemon, setSelectedPokemon] = useState(initialSelectedPokemon);
+	const [selectedPokemon, setSelectedPokemon] = useState(
+		initialSelectedPokemon,
+	);
 
 	useEffect(() => {
 		setSelectedPokemon(initialSelectedPokemon);
@@ -48,7 +47,9 @@ export function PokemonCombobox({
 					className="w-full justify-between"
 				>
 					{selectedPokemon
-						? pokemonOptions.find(currentPokemon => currentPokemon.value === selectedPokemon)?.label
+						? pokemonOptions.find(
+								currentPokemon => currentPokemon.value === selectedPokemon,
+							)?.label
 						: 'Select a Pokemon...'}
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
@@ -70,7 +71,9 @@ export function PokemonCombobox({
 								<Check
 									className={cn(
 										'mr-2 h-4 w-4',
-										selectedPokemon === currentPokemon.value ? 'opacity-100' : 'opacity-0',
+										selectedPokemon === currentPokemon.value
+											? 'opacity-100'
+											: 'opacity-0',
 									)}
 								/>
 								{currentPokemon.label}

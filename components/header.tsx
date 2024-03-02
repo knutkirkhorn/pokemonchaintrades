@@ -1,5 +1,4 @@
 import React from 'react';
-import {Github} from 'lucide-react';
 
 import HeaderDropdown from './header-dropdown';
 import {Icons} from './icons';
@@ -22,7 +21,7 @@ export default function Header() {
 							rel="noopener noreferrer"
 							target="_blank"
 						>
-							<Github className="w-4 h-4" />
+							<Icons.GitHub className="w-4 h-4" />
 						</a>
 					</Button>
 					<Button asChild>

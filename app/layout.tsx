@@ -1,11 +1,10 @@
-import {ThemeProvider} from '@/components/theme-provider';
-
 import './globals.css';
 
 import React from 'react';
 import type {Metadata} from 'next';
 import {Inter} from 'next/font/google';
 import {Analytics} from '@vercel/analytics/react';
+import {ThemeProvider} from 'next-themes';
 
 import {Toaster} from '@/components/ui/toaster';
 

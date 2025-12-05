@@ -131,6 +131,7 @@ export const reducer = (state: State, action: Action): State => {
 	}
 };
 
+// eslint-disable-next-line no-unused-vars
 const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = {toasts: []};
@@ -180,6 +181,7 @@ function useToast() {
 		listeners.push(setState);
 		return () => {
 			const index = listeners.indexOf(setState);
+			// eslint-disable-next-line unicorn/consistent-existence-index-check
 			if (index > -1) {
 				listeners.splice(index, 1);
 			}

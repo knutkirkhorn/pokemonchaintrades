@@ -29,7 +29,9 @@ export function TradeStep({
 	secondPokemon: Pokemon;
 	onDelete?: () => void;
 	step: number;
+	// eslint-disable-next-line no-unused-vars
 	onSelectedFirstPokemon: (newSelectedPokemon: Pokemon) => void;
+	// eslint-disable-next-line no-unused-vars
 	onSelectedSecondPokemon: (newSelectedPokemon: Pokemon) => void;
 	onSwapPokemon?: () => void;
 }) {

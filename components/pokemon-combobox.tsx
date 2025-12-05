@@ -26,6 +26,7 @@ export function PokemonCombobox({
 }: {
 	pokemonOptions: ComboBoxOption[];
 	initialSelectedPokemon: string;
+	// eslint-disable-next-line no-unused-vars
 	onSelectedPokemon: (pokemon: string) => void;
 }) {
 	const [isOpen, setIsOpen] = useState(false);

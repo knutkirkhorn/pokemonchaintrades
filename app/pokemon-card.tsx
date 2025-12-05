@@ -69,6 +69,7 @@ export default function PokemonCard({
 }: {
 	first?: boolean;
 	selectedPokemon: Pokemon;
+	// eslint-disable-next-line no-unused-vars
 	onSelectedPokemon: (newSelectedPokemon: Pokemon) => void;
 }) {
 	const [selectedPokemonName, setSelectedPokemonName] = useState(
@@ -86,6 +87,7 @@ export default function PokemonCard({
 	const [showClearPokemonModal, setShowClearPokemonModal] = useState(false);
 
 	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setSelectedPokemonName(selectedPokemon.name);
 		setSelectedPokemonLanguage(selectedPokemon.language);
 		setSelectedPokemonLevel(

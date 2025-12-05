@@ -59,6 +59,7 @@ export default function Home() {
 					return pokemonTrade;
 				},
 			);
+			// eslint-disable-next-line react-hooks/set-state-in-effect
 			setPokemonTrades(parsedPokemonTrades);
 		}
 		setIsLoading(false);

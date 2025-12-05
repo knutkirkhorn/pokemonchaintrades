@@ -44,6 +44,7 @@ export default function GameTravelSelector({
 	onChange,
 }: {
 	games?: PokemonGame[];
+	// eslint-disable-next-line no-unused-vars
 	onChange: (newGameTravels: PokemonGame[]) => void;
 }) {
 	return (
